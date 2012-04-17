@@ -23,7 +23,7 @@ ITEM_PTN  = re.compile('<!--([0-9]+)-([0-9]+)-->(.*)')
 TAG_PTN   = re.compile('<.*?>')
 
 def fetch_data(attr):
-	sys.stderr.write("Fetch wiki page...\n")
+	sys.stderr.write("%s: Fetch wiki page...\n" % attr)
 	agent = 'imascg-' + hashlib.md5(str(time.time())).hexdigest()
 	req = urllib2.Request(URL_LIST[attr], None, { 'User-Agent': agent })
 	f = codecs.getreader('utf-8')(urllib2.urlopen(req))
@@ -72,7 +72,7 @@ def main():
 		record = [''] * 11
 		record[0] = attr
 		count = -1
-		sys.stderr.write("Processing...\n")
+		sys.stderr.write("%s: Processing...\n" % attr)
 		for line in f.readlines():
 			m = ITEM_PTN.search(line)
 			if m is not None:
