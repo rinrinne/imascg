@@ -40,12 +40,14 @@ def getdata(attr, file):
 def print_header():
 	HEADERS = (u'属性', u'アイドル名', u'レアリティ', u'レベル上限', u'親愛度上限',
 				u'攻', u'守', u'コスト', u'1コスト攻', u'1コスト守', u'特技')
-	print ','.join(HEADERS)
+	str = ','.join(HEADERS)
+	print str.encode(sys.getfilesystemencoding())
 		
 def pretty_print(record):
 	UNEXPECTED_STRING = (u'アイドル名', u'名前', u'今日', u'[[]]', u'??', u'')
 	if record[1] not in UNEXPECTED_STRING:
-		print ','.join(record)
+		str = ','.join(record)
+		print str.encode(sys.getfilesystemencoding())
 
 def main():
 	
