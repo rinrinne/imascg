@@ -11,7 +11,7 @@ import unicodedata
 import codecs
 import StringIO
 import time
-import md5
+import hashlib
 
 URL_LIST = { 
 	'cu': 'http://www18.atwiki.jp/imas_cg/pages/13.html',
@@ -24,7 +24,7 @@ TAG_PTN   = re.compile('<.*?>')
 
 def fetch_data(attr):
 	sys.stderr.write("Fetch wiki page...\n")
-	agent = 'imascg-' + md5.new(str(time.time())).hexdigest()
+	agent = 'imascg-' + hashlib.md5(str(time.time())).hexdigest()
 	req = urllib2.Request(URL_LIST[attr], None, { 'User-Agent': agent })
 	f = codecs.getreader('utf-8')(urllib2.urlopen(req))
 	return f
