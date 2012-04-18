@@ -22,10 +22,22 @@ URL_LIST = {
 ITEM_PTN  = re.compile('<!--([0-9]+)-([0-9]+)-->(.*)')
 TAG_PTN   = re.compile('<.*?>')
 
+RETRY_FETCH  = 3
+
 def fetch_data(attr):
-	sys.stderr.write("%s: Fetch wiki page...\n" % attr)
-	agent = 'imascg-' + hashlib.md5(str(time.time())).hexdigest()
-	req = urllib2.Request(URL_LIST[attr], None, { 'User-Agent': agent })
+	for retry in range(RETRY_FETCH):
+		req = None
+		try:
+			sys.stderr.write("%s: Fetch wiki page...\n" % attr)
+			agent = 'imascg-' + hashlib.md5(str(time.time())).hexdigest()
+			req = urllib2.Request(URL_LIST[attr], None, { 'User-Agent': agent })
+		except URLError:
+			continue
+		break
+
+	if req is None:
+		sys.exit('Cannot fetch wiki page.')
+
 	f = codecs.getreader('utf-8')(urllib2.urlopen(req))
 	return f
 
