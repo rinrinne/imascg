@@ -33,13 +33,12 @@ def fetch_data(attr):
 			req = urllib2.Request(URL_LIST[attr], None, { 'User-Agent': agent })
 		except URLError:
 			continue
-		break
+		else:
+			f = codecs.getreader('utf-8')(urllib2.urlopen(req))
+			return f
 
-	if req is None:
-		sys.exit('Cannot fetch wiki page.')
+	sys.exit('Cannot fetch wiki page.')
 
-	f = codecs.getreader('utf-8')(urllib2.urlopen(req))
-	return f
 
 def getdata(attr, file):
 	BIRTH_PTN = re.compile('([0-9]+)/([0-9]+)')
