@@ -31,10 +31,12 @@ def fetch_data(attr):
 			sys.stderr.write("%s: Fetch wiki page...\n" % attr)
 			agent = 'imascg-' + hashlib.md5(str(time.time())).hexdigest()
 			req = urllib2.Request(URL_LIST[attr], None, { 'User-Agent': agent })
-		except URLError:
+			f = codecs.getreader('utf-8')(urllib2.urlopen(req))
+		except urllib2.URLError:
+			continue
+		except urllib2.HTTPError:
 			continue
 		else:
-			f = codecs.getreader('utf-8')(urllib2.urlopen(req))
 			return f
 
 	sys.exit('Cannot fetch wiki page.')
